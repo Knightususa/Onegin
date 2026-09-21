@@ -9,21 +9,22 @@ int main()
     char fileName[]          = "Onegin_text.txt";
     char fileSortEndName[]   = "Onegin_text_end_sorted.txt";
     char fileSortStartNAme[] = "Onegin_text_start_sorted.txt";
-    char **pointerArr = (char **)safe_calloc((size_t)MAXLINES, (size_t)sizeof(char *));
-    enum PRINT_TYPE printType = raw_text;
+    char fileReadTest[]      = "Onegin_text_read_test.txt";
+    size_t lenPointerArr;
+    
+    char **pointerArr = ReadFile(fileName, &lenPointerArr);
+    $(pointerArr[0], p);
+    $(pointerArr[1], s);
+    WriteToFile(fileReadTest, pointerArr, lenPointerArr);
+    PrintText((char *const *)pointerArr, raw_text);
+    
+    char **pointerArrEndSort = Selfstrdup(pointerArr, lenPointerArr);
+    qsort (pointerArrEndSort, lenPointerArr, sizeof(char*), &CompareStrEnd);
+    // PrintText((char *const *)pointerArr, sorted_form_end_text);
+    WriteToFile(fileSortEndName, pointerArrEndSort, lenPointerArr);
 
-    ReadFile(fileName, &pointerArr);
-    PrintText((char *const *)pointerArr, printType);
-
-    char **pointerArrEndSort = Selfstrdup(pointerArr, MAXLINES);
-    qsort (pointerArrEndSort, MAXLINES, sizeof(char*), &CompareStrRifm);
-    printType = sorted_form_end_text;
-    PrintText((char *const *)pointerArr, printType);
-    WriteToFile(fileSortEndName, pointerArrEndSort);
-
-    char **pointerArrStartSort = Selfstrdup(pointerArr, MAXLINES);
-    qsort (pointerArrStartSort, MAXLINES, sizeof(char*), &CompareStrStart);
-    printType = sorted_form_end_text;
-    PrintText((char *const *)pointerArr, printType);
-    WriteToFile(fileSortStartNAme, pointerArrStartSort);
+    char **pointerArrStartSort = Selfstrdup(pointerArr, lenPointerArr);
+    qsort (pointerArrStartSort, lenPointerArr, sizeof(char*), &CompareStrStart);
+    // PrintText((char *const *)pointerArr, sorted_form_start_text);
+    WriteToFile(fileSortStartNAme, pointerArrStartSort, lenPointerArr);
 }

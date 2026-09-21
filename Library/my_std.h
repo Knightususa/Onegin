@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define $(variable, t) printf("\n" #variable " = <%" #t ">\n", variable);
+#define $(variable, typeInprintf) printf("\n" #variable " = <%" #typeInprintf ">\n", variable);
 
 #define RED "\x1B[31m"
 #define RESET "\x1B[0m"
@@ -15,7 +15,7 @@
     {                                                                                                                  \
         if (!(usl))                                                                                                    \
         {                                                                                                              \
-            printf("\n" RED text RESET "\n%s:%i", __FILE_NAME__, __LINE__);                                            \
+            printf("\n" RED text RESET "\n%s:%i", __FILE__, __LINE__);                                            \
             abort();                                                                                                   \
         }                                                                                                              \
     }
