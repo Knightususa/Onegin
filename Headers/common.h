@@ -7,6 +7,7 @@
 
 #define $(variable, typeInprintf) printf("\n" #variable " = <%" #typeInprintf ">\n", variable);
 
+
 #define RED "\x1B[31m"
 #define RESET "\x1B[0m"
 
@@ -15,7 +16,7 @@
     {                                                                                                                  \
         if (!(usl))                                                                                                    \
         {                                                                                                              \
-            printf("\n" RED text RESET "\n%s:%i", __FILE__, __LINE__);                                            \
+            printf("\n" RED text RESET "\n%s:%i", __FILE__, __LINE__);                                                 \
             abort();                                                                                                   \
         }                                                                                                              \
     }
