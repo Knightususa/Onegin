@@ -20,7 +20,7 @@
 Для сборки проекта вам понадобится компилятор с поддержкой C++ (например, `g++`). Выполните следующую команду в терминале:
 
 ```bash
-g++ *.cpp -o main.exe
+g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp main.cpp .\Source\comparators.cpp -I .\Headers -o main.exe
 ```
 ## Запуск программы и аргументы
 
