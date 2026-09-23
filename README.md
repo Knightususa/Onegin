@@ -22,7 +22,7 @@
 ```bash
 git clone https://github.com/Knightususa/Onegin.git
 cd Onegin
-g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp main.cpp .\Source\comparators.cpp -I -NDEBUG .\Headers -o main.exe
+g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp .\Source\main.cpp .\Source\comparators.cpp -NDEBUG -o main.exe
 ```
 ## Запуск программы и аргументы
 
