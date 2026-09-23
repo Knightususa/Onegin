@@ -1,36 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "common.h"
-#include "comparators.h"
-#include "read_file.h"
-#include "other.h"
+#include "Headers\common.h"
+#include "Headers\comparators.h"
+#include "Headers\read_file.h"
+#include "Headers\other.h"
 
-int main()
+int main(int argc, char **argv)
 {
-    char fileName[]          = "Onegin_text.txt";
-    char fileSortEndName[]   = "Onegin_text_end_sorted.txt";
-    char fileSortStartNAme[] = "Onegin_text_start_sorted.txt";
-    char fileReadTest[]      = "Onegin_text_read_test.txt";
+    Options options = {.filename  = NULL,
+                       .whatPrint = NULL,
+                       .whatWrite = NULL,
+                       .nLines    = 100,
+                       .isHelp    = false};
+    
+    GetOptions(argc, argv, &options);
+    if(options.isHelp || options.filename == NULL)
+        PrintHelp();
+
+    char *fileNameBuf = options.filename;
+    char *fileName          = CreateNameFile(fileNameBuf, ".txt");
+    char *fileReadTest      = CreateNameFile(fileNameBuf, "_read_test.txt");
+    char *fileSortEndName   = CreateNameFile(fileNameBuf, "_end_sorted.txt");
+    char *fileSortStartName = CreateNameFile(fileNameBuf, "_start_sorted.txt");
     size_t lenPointerArr = 0;
     
     char **pointerArr = ReadFile(fileName, &lenPointerArr);
-    $(pointerArr[0], p);
-    $(pointerArr[1], s);
-
+    
+    ArrInfo arrInfo = {.lenPointerArr = lenPointerArr,
+                       .whatPrint     = options.whatPrint,
+                       .whatWrite     = options.whatWrite,
+                       .nLines        = options.nLines};
+    
     //Text without sorting
-    PrintText((char *const *)pointerArr, raw_text);
-    WriteToFile(fileReadTest, pointerArr, lenPointerArr);
+    arrInfo.printType  = raw_text;
+    arrInfo.pointerArr = pointerArr;
+    PrintText(arrInfo);
+    WriteToFile(fileReadTest, arrInfo);
     
     //Text sorted from start
     char **pointerArrStartSort = Selfstrdup(pointerArr, lenPointerArr);
     qsort (pointerArrStartSort, lenPointerArr, sizeof(char*), &CompareStrStart);
-    PrintText((char *const *)pointerArr, sorted_form_start_text);
-    WriteToFile(fileSortStartNAme, pointerArrStartSort, lenPointerArr);
-
+    arrInfo.printType  = sorted_form_start_text;
+    arrInfo.pointerArr = pointerArrStartSort;
+    PrintText(arrInfo);
+    WriteToFile(fileSortStartName, arrInfo);
+    
     //Text sorted from end
     char **pointerArrEndSort = Selfstrdup(pointerArr, lenPointerArr);
     qsort (pointerArrEndSort, lenPointerArr, sizeof(char*), &CompareStrEnd);
-    PrintText((char *const *)pointerArr, sorted_form_end_text);
-    WriteToFile(fileSortEndName, pointerArrEndSort, lenPointerArr);
+    arrInfo.printType  = sorted_form_end_text;
+    arrInfo.pointerArr = pointerArrEndSort;
+    PrintText(arrInfo);
+    WriteToFile(fileSortEndName, arrInfo);
 }

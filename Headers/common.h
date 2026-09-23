@@ -9,6 +9,7 @@
 
 
 #define RED "\x1B[31m"
+#define YELLOW  "\x1B[33m"
 #define RESET "\x1B[0m"
 
 #ifndef NDEBUG
@@ -16,13 +17,21 @@
     {                                                                                                                  \
         if (!(usl))                                                                                                    \
         {                                                                                                              \
-            printf("\n" RED text RESET "\n%s:%i", __FILE__, __LINE__);                                                 \
+            printf("\n" RED text RESET "\n%s:%i\n", __FILE__, __LINE__);                                                 \
             abort();                                                                                                   \
         }                                                                                                              \
     }
 #else
 #define yaissert
 #endif
+
+#define warning(usl, text)                                                                                            \
+    {                                                                                                                  \
+        if (!(usl))                                                                                                    \
+        {                                                                                                              \
+            printf("\n" RED text RESET "\n%s:%i\n", __FILE__, __LINE__);                                                                                                \
+        }                                                                                                              \
+    }
 
 void *safe_calloc(size_t count, size_t size);
 void *safe_malloc(size_t size);
