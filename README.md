@@ -20,7 +20,9 @@
 Для сборки проекта вам понадобится компилятор с поддержкой C++ (например, `g++`). Выполните следующую команду в терминале:
 
 ```bash
-g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp main.cpp .\Source\comparators.cpp -I .\Headers -o main.exe
+git clone https://github.com/Knightususa/Onegin.git
+cd Onegin
+g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp main.cpp .\Source\comparators.cpp -I -NDEBUG .\Headers -o main.exe
 ```
 ## Запуск программы и аргументы
 
