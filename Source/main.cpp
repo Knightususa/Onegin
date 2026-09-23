@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Headers\common.h"
-#include "Headers\comparators.h"
-#include "Headers\read_file.h"
-#include "Headers\other.h"
+#include "..\\Headers\\common.h"
+#include "..\\Headers\\comparators.h"
+#include "..\\Headers\\read_file.h"
+#include "..\\Headers\\other.h"
 
 int main(int argc, char **argv)
 {
@@ -17,9 +17,8 @@ int main(int argc, char **argv)
     GetOptions(argc, argv, &options);
     if(options.isHelp || options.filename == NULL)
         PrintHelp();
-
     char *fileNameBuf = options.filename;
-    char *fileName          = CreateNameFile(fileNameBuf, ".txt");
+    char *fileName          = CreateNameFile(fileNameBuf, ".txt"); //TODO принимать файлы с расширением
     char *fileReadTest      = CreateNameFile(fileNameBuf, "_read_test.txt");
     char *fileSortEndName   = CreateNameFile(fileNameBuf, "_end_sorted.txt");
     char *fileSortStartName = CreateNameFile(fileNameBuf, "_start_sorted.txt");
@@ -39,7 +38,7 @@ int main(int argc, char **argv)
     WriteToFile(fileReadTest, arrInfo);
     
     //Text sorted from start
-    char **pointerArrStartSort = Selfstrdup(pointerArr, lenPointerArr);
+    char **pointerArrStartSort = Selfstrdup(pointerArr, lenPointerArr);//TODO однотипный вывод(функция)
     qsort (pointerArrStartSort, lenPointerArr, sizeof(char*), &CompareStrStart);
     arrInfo.printType  = sorted_form_start_text;
     arrInfo.pointerArr = pointerArrStartSort;

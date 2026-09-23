@@ -1,4 +1,4 @@
-#include "other.h"
+#include "..\\Headers\\other.h"
 
 
 
@@ -97,7 +97,7 @@ int WriteToFile(char *fileWName, ArrInfo arrInfo)
 char **Selfstrdup(char **str1, size_t count)
 {
     yaissert(str1 != NULL, "Pointer to array that try to copy is NULL");
-    char **strcopy = (char **)calloc(count, sizeof(str1[0]));
+    char **strcopy = (char **)safe_calloc(count, sizeof(str1[0]));
     size_t i = 0;
 
     while (i < count)

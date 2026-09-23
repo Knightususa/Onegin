@@ -1,4 +1,4 @@
-#include "read_file.h"
+#include "..\\Headers\\read_file.h"
 
 
 
@@ -6,7 +6,8 @@ char **ReadFile(const char *fileName, size_t *lenPointerArr)
 {
     FILE *pFile = fopen(fileName, "rb");
     warning(pFile != NULL, "Incorrect filename");
-    PrintHelp();
+    if(pFile == NULL)
+        PrintHelp();
 
     struct stat fileStat = {};
     fstat(fileno(pFile), &fileStat);
