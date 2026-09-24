@@ -1,4 +1,4 @@
-#include "..\\Headers\\comparators.h"
+#include "../Headers/comparators.h"
 
 
 

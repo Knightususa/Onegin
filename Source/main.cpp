@@ -1,7 +1,7 @@
-#include "..\\Headers\\common.h"
-#include "..\\Headers\\comparators.h"
-#include "..\\Headers\\read_file.h"
-#include "..\\Headers\\other.h"
+#include "../Headers/common.h"
+#include "../Headers/comparators.h"
+#include "../Headers/read_file.h"
+#include "../Headers/other.h"
 
 int main(int argc, char **argv)
 {
