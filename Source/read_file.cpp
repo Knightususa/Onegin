@@ -2,7 +2,7 @@
 
 
 
-char **ReadFile(const char *fileName, size_t *lenPointerArr)
+void ReadFile(char *fileName, ArrInfo *pArrInfo)
 {
     FILE *pFile = fopen(fileName, "rb");
     warning(pFile != NULL, "Incorrect filename");
@@ -21,12 +21,11 @@ char **ReadFile(const char *fileName, size_t *lenPointerArr)
 
     size_t nlines = ReplaceRNto0(stringText, fileSize);
     
-    char **pointerArr = (char **)safe_calloc((size_t)nlines, sizeof(char *));
-    SetPointerArr(stringText, fileSize, pointerArr);
+    pArrInfo->pointerArrOrig = (char **)safe_calloc((size_t)nlines, sizeof(char *));
+    SetPointerArr(stringText, fileSize, pArrInfo->pointerArrOrig);
 
-    *lenPointerArr = nlines;
+    pArrInfo->lenPointerArr = nlines;
     fclose(pFile);
-    return pointerArr;
 }
 
 size_t ReplaceRNto0(char *stringText, size_t fileSize)

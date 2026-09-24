@@ -2,15 +2,16 @@
 
 
 
-int PrintText(ArrInfo arrInfo)
+int PrintText(ArrInfo *pArrInfo, Options *pOptions)
 {
-    ArrInfo a = arrInfo;
-    yaissert(a.pointerArr != NULL, "Pointer is NULL");
-    if(!IsNeedPrintThis(a.whatPrint, a.printType))
+    ArrInfo *a = pArrInfo;
+    Options *po = pOptions;
+    yaissert(a->pointerArrEdit != NULL, "Pointer to ArrEdit is NULL");
+    if(!IsNeedPrintThis(po->whatPrint, a->printType))
         return 1;
 
     printf(RED "\n\n#################################--");
-    switch (a.printType)
+    switch (a->printType)
     {
         case raw_text:
             printf("Raw text");
@@ -31,9 +32,9 @@ int PrintText(ArrInfo arrInfo)
     printf("--#################################\n\n\n" RESET);
     
     int i = 0;
-    while (a.pointerArr[i] != 0 && i < a.nLines)
+    while (a->pointerArrEdit[i] != 0 && i < po->nLines)
     {
-        printf("pointer %i: %p || <%s>\n", i + 1, &(a.pointerArr[i]), a.pointerArr[i]);
+        printf("pointer %i: %p || <%s>\n", i + 1, &(a->pointerArrEdit[i]), a->pointerArrEdit[i]);
         i++;
     }
     return 0;
@@ -70,23 +71,24 @@ bool IsNeedPrintThis(char *whatPrint, enum PRINT_TYPE printType)
     return false;
 }
 
-int WriteToFile(char *fileWName, ArrInfo arrInfo)
+int WriteToFile(char *fileWName, ArrInfo *pArrInfo, Options *pOptions)
 {
-    ArrInfo a = arrInfo;
+    ArrInfo *a = pArrInfo;
+    Options *po = pOptions;
 
-    if(!IsNeedPrintThis(a.whatWrite, a.printType))
+    if(!IsNeedPrintThis(po->whatWrite, a->printType))
         return 1;
 
-    yaissert(a.pointerArr != NULL, "Pointer is NULL");
+    yaissert(a->pointerArrEdit != NULL, "Pointer is NULL");
     warning(fileWName != NULL, "Pointer to file name is NULL");
 
     FILE *pFile = fopen(fileWName, "w");
     warning(pFile != NULL, "Cant open file with this name");
 
     size_t i = 0;
-    while (a.pointerArr[i] != NULL && i < a.lenPointerArr)
+    while (a->pointerArrEdit[i] != NULL && i < a->lenPointerArr)
     {
-        fprintf(pFile, "pointer %zu: %p || <%s>\n", i + 1, &(a.pointerArr[i]), a.pointerArr[i]);
+        fprintf(pFile, "pointer %zu: %p || <%s>\n", i + 1, &(a->pointerArrEdit[i]), a->pointerArrEdit[i]);
         i++;
     }
 
@@ -108,11 +110,14 @@ char **Selfstrdup(char **str1, size_t count)
     return strcopy;
 }
 
-char *CreateNameFile(char *fileNameBuf, const char *strToAdd)
+char *CreateNameFile(Options *pOptions, const char *strToAdd)
 {
-    char *fileName = (char *)safe_calloc(strlen(fileNameBuf) + strlen(strToAdd), sizeof(char));
-    strcpy(fileName, fileNameBuf);
+    char *fileName = (char *)safe_calloc(strlen(pOptions->filename) + 
+                                         strlen(pOptions->fileext)  +
+                                         strlen(strToAdd), sizeof(char));
+    strcpy(fileName, pOptions->filename);
     strcat(fileName, strToAdd);
+    strcat(fileName, pOptions->fileext);
     return fileName;
 }
 
@@ -123,7 +128,8 @@ void PrintHelp()
                     "\tline start or end.\n"\
                     "\tIt can print the first n lines to the \n"\
                     "\tterminal and also write the sorted text.\n\n\n"\
-             YELLOW "\t-f [STRING]" RESET " Enter the name of the file (without extension)\n"\
+             YELLOW "\t-f [STRING]" RESET " Enter the name of the file \n"\
+                    "\t(with extension(or if without extension it will be readed as txt file))\n"\
                     "\tfrom which the text will be read.\n\n"\
              YELLOW "\t-n [INT]" RESET " Enter the number of first lines of a file \n"\
                     "\tto output to the terminal.\n\n"\
@@ -135,4 +141,39 @@ void PrintHelp()
                     "\tr - raw text\n"\
                     "\ts - text sorted by line start\n"\
                     "\te - text sorted by line end\n\n");
+}
+
+int SplitNameExt(Options *pOptions)
+{   
+    char *f = pOptions->filename;
+    int lenf = (int)strlen(f);
+    int i = lenf - 1;
+
+    while(i >= 0 && f[i] != '.')
+        i--;
+
+    if(i < 0)
+    {
+        pOptions->fileext = (char *)safe_calloc(strlen(".txt"), sizeof(char));
+        strcat(pOptions->fileext, ".txt");
+        return 0;
+    }
+
+    pOptions->fileext = (char *)safe_calloc(lenf - i, sizeof(char));
+
+    for(int j = 0; i + j < lenf; j++)
+    {
+        (pOptions->fileext)[j] = (pOptions->filename)[i + j];
+        (pOptions->filename)[i + j] = '\0';
+    }
+    return 1;
+}
+
+
+void SortAndDisplay(ArrInfo *pArrInfo, Options *pOptions, int(*CompareStrStart)(const void *a, const void *b), char *fileWName)
+{
+    pArrInfo->pointerArrEdit = Selfstrdup(pArrInfo->pointerArrOrig, pArrInfo->lenPointerArr);
+    qsort (pArrInfo->pointerArrEdit, pArrInfo->lenPointerArr, sizeof(char*), CompareStrStart);
+    PrintText(pArrInfo, pOptions);
+    WriteToFile(fileWName, pArrInfo, pOptions);
 }
