@@ -43,7 +43,7 @@ Onegin/
 ```bash
 git clone https://github.com/Knightususa/Onegin.git
 cd Onegin
-g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp .\Source\main.cpp .\Source\comparators.cpp -NDEBUG -o main.exe
+g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp .\Source\main.cpp .\Source\comparators.cpp -DNDEBUG -o main.exe
 ```
 ## Запуск программы и аргументы
 
@@ -67,7 +67,7 @@ g++ .\Source\other.cpp .\Source\read_file.cpp .\Source\common.cpp .\Source\main.
 ### 1. Вывод исходного текста в консоль
 
 ```bash
-main.exe -f Onegin_text -p r -n 100
+.\main.exe -f Onegin_text -p r -n 100
 ```
 
 Что происходит:
@@ -80,7 +80,7 @@ main.exe -f Onegin_text -p r -n 100
 ### 2. Вывод 10 строк, отсортированных по началу строки
 
 ```bash
-main.exe -f Onegin_text -n 10 -p s
+.\main.exe -f Onegin_text -n 10 -p s
 ```
 
 Что происходит:
@@ -93,7 +93,7 @@ main.exe -f Onegin_text -n 10 -p s
 ### 3. Запись сортировок по началу и по концу строки в файлы
 
 ```bash
-main.exe -f Onegin_text -w se
+.\main.exe -f Onegin_text -w se
 ```
 
 Что происходит:
@@ -108,7 +108,7 @@ main.exe -f Onegin_text -w se
 ### 4. Комбинированный пример
 
 ```bash
-main.exe -f Onegin_text -n 10 -p re -w es
+.\main.exe -f Onegin_text -n 10 -p re -w es
 ```
 
 Что происходит:
@@ -128,7 +128,7 @@ main.exe -f Onegin_text -n 10 -p re -w es
 ### 5. Вывод и запись всех вариантов сразу
 
 ```bash
-main.exe -f Onegin_text -n 5 -p rse -w rse
+.\main.exe -f Onegin_text -n 5 -p rse -w rse
 ```
 
 Что происходит:
