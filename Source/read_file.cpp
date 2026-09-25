@@ -7,7 +7,7 @@ void ReadFile(char *fileName, ArrInfo *pArrInfo)
     FILE *pFile = fopen(fileName, "rb");
     warning(pFile != NULL, "Incorrect filename");
     if(pFile == NULL)
-        PrintHelp();
+        HowPrintHelp();
 
     struct stat fileStat = {};
     fstat(fileno(pFile), &fileStat);
@@ -99,11 +99,11 @@ void GetOptions(int argc, char **argv, Options *pOptions)
     yaissert(argv != NULL, "argv = NULL");
 
     int opt = 0;
-    while ((opt = getopt(argc, argv, "f:n:p:w:h")) != -1)
+    while ((opt = getopt(argc, argv, "i:n:p:o:h")) != -1)
     {
         switch (opt)
         {       
-            case 'f':
+            case 'i':
                 pOptions -> filename = optarg;
                 break;
 
@@ -115,7 +115,7 @@ void GetOptions(int argc, char **argv, Options *pOptions)
                 pOptions -> whatPrint = optarg;
                 break;
 
-            case 'w':
+            case 'o':
                 pOptions -> whatWrite = optarg;
                 break;
 

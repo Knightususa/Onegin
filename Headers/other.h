@@ -2,12 +2,12 @@
 #define OTHERLIB
 
 #include "common.h"
-#include "read_file.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+
+void HowPrintHelp();
 void PrintHelp();
 
 int SplitNameExt(Options *pOptions);

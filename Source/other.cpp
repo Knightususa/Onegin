@@ -128,20 +128,32 @@ void PrintHelp()
                     "\tline start or end.\n"\
                     "\tIt can print the first n lines to the \n"\
                     "\tterminal and also write the sorted text.\n\n\n"\
-             YELLOW "\t-f [STRING]" RESET " Enter the name of the file \n"\
+             YELLOW "\t-i [STRING] Necessarily\n" RESET \
+                    "\tEnter the name of the file \n"\
                     "\t(with extension(or if without extension it will be readed as txt file))\n"\
                     "\tfrom which the text will be read.\n\n"\
-             YELLOW "\t-n [INT]" RESET " Enter the number of first lines of a file \n"\
+             YELLOW "\t-n [INT] Not necessarily\n" RESET\
+                    "\tEnter the number of first lines of a file \n"\
                     "\tto output to the terminal.\n\n"\
-             YELLOW "\t-p [STRING]" RESET " Enter some texts to output to the terminal\n"\
+             YELLOW "\t-p [STRING] Not necessarily\n" RESET\
+                    "\tEnter some texts to output to the terminal\n"\
                     "\tr - raw text\n"\
                     "\ts - text sorted by line start\n"\
                     "\te - text sorted by line end\n\n"\
-             YELLOW "\t-w [STRING]" RESET " Enter what texts to output to the file\n"\
+             YELLOW "\t-o [STRING] Not necessarily\n" RESET\
+                    "\tEnter what texts to output to the file\n"\
                     "\tr - raw text\n"\
                     "\ts - text sorted by line start\n"\
                     "\te - text sorted by line end\n\n");
+    abort();
 }
+
+void HowPrintHelp()
+{
+    printf(YELLOW "To display a hint on how to run the program enter -h\n" RESET);
+    abort();
+}
+
 
 int SplitNameExt(Options *pOptions)
 {   
@@ -172,8 +184,12 @@ int SplitNameExt(Options *pOptions)
 
 void SortAndDisplay(ArrInfo *pArrInfo, Options *pOptions, int(*CompareStrStart)(const void *a, const void *b), char *fileWName)
 {
-    pArrInfo->pointerArrEdit = Selfstrdup(pArrInfo->pointerArrOrig, pArrInfo->lenPointerArr);
-    qsort (pArrInfo->pointerArrEdit, pArrInfo->lenPointerArr, sizeof(char*), CompareStrStart);
-    PrintText(pArrInfo, pOptions);
-    WriteToFile(fileWName, pArrInfo, pOptions);
+    ArrInfo *pa = pArrInfo;
+    Options *po = pOptions;
+    if(!IsNeedPrintThis(po->whatPrint, pa->printType) && !IsNeedPrintThis(po->whatWrite, pa->printType))
+        return;
+    pa->pointerArrEdit = Selfstrdup(pa->pointerArrOrig, pa->lenPointerArr);
+    qsort (pa->pointerArrEdit, pa->lenPointerArr, sizeof(char*), CompareStrStart);
+    PrintText(pa, po);
+    WriteToFile(fileWName, pa, po);
 }

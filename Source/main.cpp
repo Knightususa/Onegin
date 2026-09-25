@@ -13,9 +13,11 @@ int main(int argc, char **argv)
                        .isHelp    = false};
     
     GetOptions(argc, argv, &options);
-    if(options.isHelp || options.filename == NULL)
+    if(options.isHelp)
         PrintHelp();
-
+    if(options.filename == NULL)
+        HowPrintHelp();
+        
     SplitNameExt(&options);
     char *fileName          = CreateNameFile(&options, "");
     char *fileReadTest      = CreateNameFile(&options, "_read_test");
